@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background-color: #000;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(16, 165, 233);
+  height: 10%;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  display: none;
+}
+
+.activeLink {
+  @apply text-lg font-semibold text-sky-500 border-b-2 border-sky-500;
+}
+
+.deactiveLink {
+  @apply text-lg font-semibold hover:text-sky-500 border-b-2 border-transparent hover:border-b-2 hover:border-sky-500 duration-300;
+}
+.btn-primary {
+  @apply text-gray-800 hover:bg-sky-300 font-medium rounded-lg text-sm px-2 lg:px-5 py-2 lg:py-2.5;
+}
+.btn-secondary {
+  @apply bg-sky-500  px-3 py-1 lg:px-4 lg:py-2 text-white text-lg font-semibold rounded-md hover:bg-sky-700 duration-300;
+}
+.btn-danger {
+  @apply bg-red-500  px-3 py-1 lg:px-4 lg:py-2 text-white text-lg font-semibold rounded-md hover:bg-red-700 duration-300;
+}
+
+.activeTab {
+  @apply text-xl font-semibold border-t-2 border-sky-500 pb-2;
+}
+.deactiveTab {
+  @apply text-xl font-semibold border-t-2 border-transparent pb-2;
+}
