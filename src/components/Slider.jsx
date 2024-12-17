@@ -14,14 +14,14 @@ const Slider = () => {
         spaceBetween={30}
         loop={true}
         autoplay={{
-          delay: 3000, // Autoplay delay in milliseconds (3 seconds)
-          disableOnInteraction: true, // Allows autoplay to continue after user interaction
+          delay: 3000,
+          disableOnInteraction: true,
         }}
         pagination={{
           clickable: true,
         }}
         navigation={true}
-        modules={[Pagination, Navigation, Autoplay]} // Include Autoplay module here
+        modules={[Pagination, Navigation, Autoplay]}
         className="mySwiper"
       >
         <SwiperSlide>
