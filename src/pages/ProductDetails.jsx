@@ -1,12 +1,20 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { addToCart } from "../features/cart/cartslice";
 
 const ProductDetails = () => {
   const { products } = useSelector((state) => state.products);
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const product = products.find((product) => product.id == id);
+
+  const addToCartHandler = (product) => {
+    dispatch(addToCart(product));
+    navigate("/cart");
+  };
   return (
     <div className="min-h-screen container mx-auto px-2 lg:px-6 xl:px-0">
       <h2 className="text-4xl font-semibold text-center border-b-2 border-sky-500 pb-2">
@@ -36,9 +44,10 @@ const ProductDetails = () => {
               </span>
               ({product.rating.count})
             </p>
+            <p className="text-3xl font-bold text-sky-700">${product.price}</p>
             <div className="flex items-center gap-3">
               <button
-                // onClick={() => readproductHandler(product?.productId)}
+                onClick={() => addToCartHandler(product)}
                 className="btn-secondary"
               >
                 Add to Cart

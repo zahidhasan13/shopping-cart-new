@@ -10,9 +10,14 @@ const MenClothing = () => {
   );
   return (
     <div className="mt-10">
-      <h2 className="text-xl font-semibold pb-2 my-3 uppercase">
-        men's <span className="text-sky-500">clothing</span>
-      </h2>
+      {status ? (
+        <div className="w-60 h-4 my-5 bg-gray-200 rounded-full animate-pulse"></div>
+      ) : (
+        <h2 className="text-xl font-semibold pb-2 my-3 uppercase">
+          men's <span className="text-sky-500">clothing</span>
+        </h2>
+      )}
+
       {status && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
           {Array.from({ length: 4 }).map((_, index) => (
