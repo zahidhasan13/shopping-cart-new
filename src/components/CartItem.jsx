@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 
 const CartItem = ({ cartItem }) => {
   const dispatch = useDispatch();
+
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6">
       <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">

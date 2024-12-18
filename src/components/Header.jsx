@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import { getTotalQuantity } from "../features/cart/cartslice";
 
 const Header = () => {
   const [openMenu, setOpenMenu] = useState(false);
+  const { cartItems, totalCartQuantity } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTotalQuantity());
+  }, [cartItems, dispatch]);
 
   // Toogle Menu
   const menuToggler = () => {
@@ -78,7 +86,7 @@ const Header = () => {
                 >
                   <FiShoppingCart />
                   <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-sky-500 rounded-full -top-3 -end-3">
-                    0
+                    {totalCartQuantity}
                   </div>
                 </NavLink>
               </li>
