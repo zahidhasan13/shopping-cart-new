@@ -78,7 +78,7 @@ const Header = () => {
                 >
                   <FiShoppingCart />
                   <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-sky-500 rounded-full -top-3 -end-3">
-                    20
+                    0
                   </div>
                 </NavLink>
               </li>
