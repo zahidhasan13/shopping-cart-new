@@ -1,4 +1,5 @@
 import React from "react";
+import ProductSkeleton from "../components/ProductSkeleton";
 
 const Cart = () => {
   return (
