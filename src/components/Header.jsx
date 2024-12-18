@@ -11,8 +11,8 @@ const Header = () => {
     setOpenMenu(!openMenu);
   };
   return (
-    <header className="header">
-      <nav className="bg-white/90 backdrop-blur-sm px-2 lg:px-6 py-2.5">
+    <header className="header bg-white/90 backdrop-blur-sm">
+      <nav className="container mx-auto px-2 lg:px-6 xl:px-0 py-2.5">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <Link to="/" className="text-xl font-semibold whitespace-nowrap">
             Shopping <span className="text-sky-500">Cart</span>
