@@ -6,13 +6,14 @@ import { getSubTotal } from "../features/cart/cartslice";
 
 const OrderSummary = () => {
   const { cartItems, totalCartAmount } = useSelector((state) => state.cart);
+  const { email } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const tax = +(totalCartAmount * 0.25).toFixed(2);
   const grandTotal = +(totalCartAmount + tax).toFixed(2);
 
   useEffect(() => {
-    dispatch(getSubTotal());
+    dispatch(getSubTotal(email));
   }, [cartItems, dispatch]);
   return (
     <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">

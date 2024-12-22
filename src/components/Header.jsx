@@ -1,6 +1,5 @@
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import { FaBars } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
@@ -12,11 +11,17 @@ const Header = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { cartItems, totalCartQuantity } = useSelector((state) => state.cart);
-  const { name } = useSelector((state) => state.auth);
+  const { name, email } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  // const cartData = cartItems.filter((cartItem) => cartItem.email === email);
+  // const totalQuantity = cartData.reduce((acc, item) => {
+  //   acc += item.quantity;
+  //   return acc;
+  // }, 0);
+  // console.log(totalCartQuantity);
 
   useEffect(() => {
-    dispatch(getTotalQuantity());
+    dispatch(getTotalQuantity(email));
   }, [cartItems, dispatch]);
 
   // onAuth

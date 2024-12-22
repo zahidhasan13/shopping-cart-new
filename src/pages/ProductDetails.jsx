@@ -6,13 +6,14 @@ import { addToCart } from "../features/cart/cartslice";
 
 const ProductDetails = () => {
   const { products } = useSelector((state) => state.products);
+  const { email } = useSelector((state) => state.auth);
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const product = products.find((product) => product.id == id);
 
   const addToCartHandler = (product) => {
-    dispatch(addToCart(product));
+    dispatch(addToCart({ ...product, email }));
     navigate("/cart");
   };
   return (

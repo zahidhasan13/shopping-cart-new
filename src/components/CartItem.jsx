@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addToCart,
   decreaseQuantity,
@@ -10,6 +10,7 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const CartItem = ({ cartItem }) => {
+  const { email } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   return (
@@ -29,7 +30,7 @@ const CartItem = ({ cartItem }) => {
         <div className="flex items-center justify-between md:order-3 md:justify-end">
           <div className="flex items-center">
             <button
-              onClick={() => dispatch(decreaseQuantity(cartItem))}
+              onClick={() => dispatch(decreaseQuantity(cartItem, email))}
               type="button"
               id="decrement-button"
               data-input-counter-decrement="counter-input"
@@ -62,16 +63,21 @@ const CartItem = ({ cartItem }) => {
         </div>
 
         <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-          <Link
-            to={`/product/${cartItem.id}`}
-            className="text-base font-medium text-gray-900 hover:underline"
-          >
-            {cartItem.title}
-          </Link>
+          <div className="flex flex-col gap-1">
+            <Link
+              to={`/product/${cartItem.id}`}
+              className="text-base font-medium text-gray-900 hover:underline"
+            >
+              {cartItem.title}
+            </Link>
+            <p className="text-base font-bold text-gray-900">
+              ${cartItem.price}
+            </p>
+          </div>
 
           <div className="flex items-center gap-4">
             <button
-              onClick={() => dispatch(removeFromCart(cartItem))}
+              onClick={() => dispatch(removeFromCart({ cartItem, email }))}
               type="button"
               className="inline-flex items-center text-sm font-medium text-red-600 hover:underline"
             >

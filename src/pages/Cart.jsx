@@ -7,11 +7,13 @@ import { Link } from "react-router-dom";
 
 const Cart = () => {
   const { cartItems } = useSelector((state) => state.cart);
+  const { email } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const cartData = cartItems.filter((cartItem) => cartItem.email === email);
   return (
     // <div className="min-h-screen container mx-auto px-2 lg:px-6 xl:px-0">
     <section className="bg-white py-8 antialiased md:py-16 min-h-screen">
-      {cartItems.length == 0 ? (
+      {cartData.length == 0 ? (
         <div className="flex items-center justify-center flex-col gap-3 mt-40">
           <p className="text-xl">There is no items in this cart</p>
           <Link to="/products">
@@ -27,7 +29,7 @@ const Cart = () => {
               Cart <span className="text-sky-500">Items</span>
             </h2>
             <button
-              onClick={() => dispatch(clearCart())}
+              onClick={() => dispatch(clearCart(email))}
               className="btn-danger"
             >
               Clear Cart
@@ -38,7 +40,7 @@ const Cart = () => {
             <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
               {
                 <div className="space-y-6">
-                  {cartItems.map((item) => (
+                  {cartData.map((item) => (
                     <CartItem key={item.id} cartItem={item} />
                   ))}
                 </div>

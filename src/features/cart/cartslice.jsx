@@ -14,7 +14,8 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const existItemIndex = state.cartItems.findIndex(
-        (item) => item.id == action.payload.id
+        (item) =>
+          item.id == action.payload.id && item.email == action.payload.email
       );
       if (existItemIndex >= 0) {
         state.cartItems[existItemIndex].quantity += 1;
@@ -26,31 +27,42 @@ export const cartSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       const updatedCart = state.cartItems.filter(
-        (item) => item.id != action.payload.id
+        (item) =>
+          item.id != action.payload.id && item.email !== action.payload.email
       );
       state.cartItems = updatedCart;
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
     decreaseQuantity: (state, action) => {
+      console.log(action.payload);
+      console.log(action.payload.id);
       const itemIndex = state.cartItems.findIndex(
-        (item) => item.id == action.payload.id
+        (item) =>
+          item.id == action.payload.id && item.email == action.payload.email
       );
       if (state.cartItems[itemIndex].quantity > 1) {
         state.cartItems[itemIndex].quantity -= 1;
       } else if (state.cartItems[itemIndex].quantity == 1) {
         const updatedCart = state.cartItems.filter(
-          (item) => item.id != action.payload.id
+          (item) =>
+            item.id != action.payload.id || item.email !== action.payload.email
         );
         state.cartItems = updatedCart;
       }
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
     clearCart: (state, action) => {
-      state.cartItems = [];
+      const updateByEmail = state.cartItems.filter(
+        (item) => item.email !== action.payload
+      );
+      state.cartItems = updateByEmail;
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
-    getSubTotal: (state) => {
-      const subTotal = state.cartItems.reduce((acc, item) => {
+    getSubTotal: (state, action) => {
+      const updateByEmail = state.cartItems.filter(
+        (item) => item.email === action.payload
+      );
+      const subTotal = updateByEmail.reduce((acc, item) => {
         const { price, quantity } = item;
         const itemTotal = price * quantity;
         acc += itemTotal;
@@ -58,8 +70,11 @@ export const cartSlice = createSlice({
       }, 0);
       state.totalCartAmount = subTotal;
     },
-    getTotalQuantity: (state) => {
-      const totalQuantity = state.cartItems.reduce((acc, item) => {
+    getTotalQuantity: (state, action) => {
+      const updateByEmail = state.cartItems.filter(
+        (item) => item.email === action.payload
+      );
+      const totalQuantity = updateByEmail.reduce((acc, item) => {
         acc += item.quantity;
         return acc;
       }, 0);
