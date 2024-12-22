@@ -1,7 +1,36 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { signInUser } from "../features/auth/authSlice";
 
 const Login = () => {
+  const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isError, error, isLoading, email } = useSelector(
+    (state) => state.auth
+  );
+
+  const from = location.state?.path || "/";
+
+  useEffect(() => {
+    if (isError && error) {
+      alert("Login Failed");
+    }
+  }, [isError, error]);
+
+  useEffect(() => {
+    if (!isLoading && email) {
+      navigate(from, { replace: true });
+    }
+  }, [isLoading, email]);
+
+  const onSubmit = (data) => {
+    const { email, password } = data;
+    dispatch(signInUser({ email, password }));
+  };
   return (
     <section className="bg-gray-50">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -13,7 +42,10 @@ const Login = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-4 md:space-y-6"
+            >
               <div>
                 <label
                   htmlFor="email"
@@ -25,6 +57,7 @@ const Login = () => {
                   type="email"
                   name="email"
                   id="email"
+                  {...register("email")}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                   placeholder="name@company.com"
                   required
@@ -42,6 +75,7 @@ const Login = () => {
                   name="password"
                   id="password"
                   placeholder="••••••••"
+                  {...register("password")}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                   required
                 />

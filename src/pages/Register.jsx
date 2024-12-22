@@ -1,10 +1,37 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { createUser } from "../features/auth/authSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isError, error, isLoading, email } = useSelector(
+    (state) => state.auth
+  );
+  const { register, handleSubmit } = useForm();
+
+  useEffect(() => {
+    if (isError && error) {
+      toast.error("User already exists");
+    }
+  }, [isError, error]);
+
+  useEffect(() => {
+    if (!isLoading && email) {
+      navigate("/");
+    }
+  }, [isLoading, email]);
+
+  const onSubmit = ({ name, email, password }) => {
+    dispatch(createUser({ email, password, name }));
+  };
   return (
     <section className="bg-gray-50">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <Toaster />
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:min-h-screen">
         <Link to="/" className="text-2xl font-semibold whitespace-nowrap mb-5">
           Shopping <span className="text-sky-500">Cart</span>
         </Link>
@@ -13,7 +40,28 @@ const Register = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Create an account
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-4 md:space-y-6"
+              action="#"
+            >
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  {...register("name")}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                  placeholder="your name"
+                  required
+                />
+              </div>
               <div>
                 <label
                   htmlFor="email"
@@ -25,6 +73,7 @@ const Register = () => {
                   type="email"
                   name="email"
                   id="email"
+                  {...register("email")}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   placeholder="name@company.com"
                   required
@@ -33,7 +82,7 @@ const Register = () => {
               <div>
                 <label
                   htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900"
                 >
                   Password
                 </label>
@@ -41,22 +90,7 @@ const Register = () => {
                   type="password"
                   name="password"
                   id="password"
-                  placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                  required
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="confirm-password"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  Confirm password
-                </label>
-                <input
-                  type="confirm-password"
-                  name="confirm-password"
-                  id="confirm-password"
+                  {...register("password")}
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   required

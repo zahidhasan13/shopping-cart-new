@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 
 const Slider = () => {
   return (
-    <div>
+    <div className="relative z-10">
       <Swiper
         slidesPerView={1}
         spaceBetween={30}
