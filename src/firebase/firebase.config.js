@@ -6,12 +6,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCbfhBKNtQ7xhKYqycMBlGkkQGHs2m2nfQ",
-  authDomain: "react-shopping-cart-e372c.firebaseapp.com",
-  projectId: "react-shopping-cart-e372c",
-  storageBucket: "react-shopping-cart-e372c.firebasestorage.app",
-  messagingSenderId: "57763595973",
-  appId: "1:57763595973:web:40a0a85cd49e3a7c4612ac",
+  apiKey: import.meta.env.VITE_APIKEY,
+  authDomain: import.meta.env.VITE_AUTHDOMAIN,
+  projectId: import.meta.env.VITE_PROJECTID,
+  storageBucket: import.meta.env.VITE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
+  appId: import.meta.env.VITE_APPID,
 };
 
 // Initialize Firebase
