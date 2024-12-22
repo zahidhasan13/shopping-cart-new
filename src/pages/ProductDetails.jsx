@@ -3,6 +3,7 @@ import { FaStar } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { addToCart } from "../features/cart/cartslice";
+import { addToWishlist } from "../features/wishlist/wishlistSlice";
 
 const ProductDetails = () => {
   const { products } = useSelector((state) => state.products);
@@ -15,6 +16,10 @@ const ProductDetails = () => {
   const addToCartHandler = (product) => {
     dispatch(addToCart({ ...product, email }));
     navigate("/cart");
+  };
+  const wishlistHandler = (product) => {
+    dispatch(addToWishlist({ ...product, email }));
+    navigate("/wishlist");
   };
   return (
     <div className="min-h-screen container mx-auto px-2 lg:px-6 xl:px-0">
@@ -54,7 +59,7 @@ const ProductDetails = () => {
                 Add to Cart
               </button>
               <button
-                // onClick={() => wishlistHandler(product?.productId)}
+                onClick={() => wishlistHandler(product)}
                 className="btn-warning"
               >
                 Add to Wishlist
