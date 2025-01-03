@@ -52,7 +52,7 @@ const Header = () => {
             Shopping <span className="text-sky-500">Cart</span>
           </Link>
           <div className="flex items-center lg:order-2">
-            <Link to="/cart" className="relative mr-4">
+            <Link to="/cart" className="relative mr-4 lg:hidden">
               <FiShoppingCart />
               <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-sky-500 rounded-full -top-3 -end-3">
                 {totalCartQuantity}
@@ -99,11 +99,7 @@ const Header = () => {
               </div>
             )}
           </div>
-          <div
-            className={`justify-between items-center w-full lg:flex lg:w-auto lg:order-1 ${
-              openMenu ? "block" : "hidden"
-            }`}
-          >
+          <div className="justify-between items-center w-full lg:flex lg:w-auto lg:order-1 hidden">
             <ul className="flex flex-col mt-4 font-medium lg:flex-row items-center lg:space-x-8 space-y-4 lg:space-y-0 lg:mt-0">
               <li>
                 <NavLink
