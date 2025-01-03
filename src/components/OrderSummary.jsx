@@ -42,12 +42,12 @@ const OrderSummary = () => {
         </dl>
       </div>
 
-      <a
-        href="#"
+      <Link
+        to="/checkout"
         className="flex w-full items-center justify-center btn-secondary"
       >
         Proceed to Checkout
-      </a>
+      </Link>
 
       <div className="flex items-center justify-center gap-2">
         <span className="text-sm font-normal text-gray-500">or</span>

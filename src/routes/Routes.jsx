@@ -9,6 +9,8 @@ import Products from "../pages/Products";
 import Register from "../pages/Register";
 import Wishlist from "../pages/Wishlist";
 import PrivateRoute from "./PrivateRoute";
+import CheckOut from "../pages/CheckOut";
+import ThankYouPage from "../pages/ThankYouPage";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,22 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Wishlist />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/checkout",
+        element: (
+          <PrivateRoute>
+            <CheckOut />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/thank-you",
+        element: (
+          <PrivateRoute>
+            <ThankYouPage />
           </PrivateRoute>
         ),
       },

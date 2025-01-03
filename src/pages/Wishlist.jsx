@@ -15,7 +15,7 @@ const Wishlist = () => {
     <section className="bg-white py-8 antialiased md:py-16 min-h-screen">
       {wishlistData.length == 0 ? (
         <div className="flex items-center justify-center flex-col gap-3 mt-40">
-          <p className="text-xl">There is no items in this cart</p>
+          <p className="text-xl">There is no items in wishlist</p>
           <Link to="/products">
             <button className="btn-secondary uppercase">
               Continue shopping

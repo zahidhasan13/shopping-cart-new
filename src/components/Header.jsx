@@ -13,20 +13,15 @@ const Header = () => {
   const { cartItems, totalCartQuantity } = useSelector((state) => state.cart);
   const { name, email } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  // const cartData = cartItems.filter((cartItem) => cartItem.email === email);
-  // const totalQuantity = cartData.reduce((acc, item) => {
-  //   acc += item.quantity;
-  //   return acc;
-  // }, 0);
-  // console.log(totalCartQuantity);
 
   useEffect(() => {
-    dispatch(getTotalQuantity(email));
-  }, [cartItems, dispatch]);
+    if (email) {
+      dispatch(getTotalQuantity(email));
+    }
+  }, [cartItems, email, dispatch]);
 
-  // onAuth
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(
           setUser({
@@ -34,35 +29,36 @@ const Header = () => {
             email: user.email,
           })
         );
-        dispatch(toggleLoading(false));
-      } else {
-        dispatch(toggleLoading(false));
       }
+      dispatch(toggleLoading(false));
     });
-  }, []);
+    return () => unsubscribe();
+  }, [dispatch]);
 
-  // Toogle Menu
-  const menuToggler = () => {
-    setOpenMenu(!openMenu);
-  };
+  const menuToggler = () => setOpenMenu((prev) => !prev);
 
-  // LogOut
   const logOutHandler = () => {
     signOut(auth);
     dispatch(setLogOut());
   };
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen((prev) => !prev);
-  };
+  const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
+
   return (
-    <header className="header bg-white/90 backdrop-blur-sm lg:h-20 flex justify-center items-center mb-5">
+    <header className="header bg-white/90 backdrop-blur-sm lg:h-20 flex justify-center items-center mb-5 shadow-md sticky top-0 z-50 py-2 md:py-0">
       <nav className="container mx-auto px-2 lg:px-6 xl:px-0">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <Link to="/" className="text-xl font-semibold whitespace-nowrap">
             Shopping <span className="text-sky-500">Cart</span>
           </Link>
           <div className="flex items-center lg:order-2">
+            <Link to="/cart" className="relative mr-4">
+              <FiShoppingCart />
+              <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-sky-500 rounded-full -top-3 -end-3">
+                {totalCartQuantity}
+              </div>
+            </Link>
+
             {!name ? (
               <div className="flex items-center gap-1">
                 <Link to="/login">
@@ -80,7 +76,6 @@ const Header = () => {
                 >
                   {name[0]}
                 </button>
-
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                     <div className="py-1">
@@ -105,14 +100,15 @@ const Header = () => {
             )}
           </div>
           <div
-            className={`justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
-            id="mobile-menu-2 ${openMenu ? "block" : "hidden"}`}
+            className={`justify-between items-center w-full lg:flex lg:w-auto lg:order-1 ${
+              openMenu ? "block" : "hidden"
+            }`}
           >
             <ul className="flex flex-col mt-4 font-medium lg:flex-row items-center lg:space-x-8 space-y-4 lg:space-y-0 lg:mt-0">
               <li>
                 <NavLink
                   to="/"
-                  onClick={() => setOpenMenu(!openMenu)}
+                  onClick={menuToggler}
                   className={({ isActive }) =>
                     isActive ? "activeLink" : "deactiveLink"
                   }
@@ -123,7 +119,7 @@ const Header = () => {
               <li>
                 <NavLink
                   to="/products"
-                  onClick={() => setOpenMenu(!openMenu)}
+                  onClick={menuToggler}
                   className={({ isActive }) =>
                     isActive ? "activeLink" : "deactiveLink"
                   }
@@ -134,7 +130,7 @@ const Header = () => {
               <li className="relative">
                 <NavLink
                   to="/cart"
-                  onClick={() => setOpenMenu(!openMenu)}
+                  onClick={menuToggler}
                   className={({ isActive }) =>
                     isActive ? "activeLink" : "deactiveLink"
                   }
